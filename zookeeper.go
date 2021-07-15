@@ -44,16 +44,9 @@ func (z Zookeeper) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Ms
 
 	c, _, err := zk.Connect([]string{"127.0.0.1"}, time.Second) //*10)
 	if err != nil {
+		fmt.Println("failed to get CPU utilization")
 		panic(err)
 	}
-	children, stat, ch, err := c.ChildrenW("/")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%+v %+v\n", children, stat)
-	e := <-ch
-	fmt.Printf("%+v\n", e)
-
 	cpuUtil, _, err := c.Get("/node/1/performance/cpu")
 	if err != nil {
 		fmt.Println("failed to get CPU utilization")
